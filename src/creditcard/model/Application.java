@@ -10,20 +10,16 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String fullName;
-
-    @Column(nullable = false)
     private String phoneNumber;
-
     private String creditCardType;
     private String profileType;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "document_id", referencedColumnName = "id")
+    // one-to-one relation with Document
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL)
     private Document documents;
 
-    // getters and setters
+    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -40,5 +36,10 @@ public class Application {
     public void setProfileType(String profileType) { this.profileType = profileType; }
 
     public Document getDocuments() { return documents; }
-    public void setDocuments(Document documents) { this.documents = documents; }
+    public void setDocuments(Document documents) {
+        this.documents = documents;
+        if (documents != null) {
+            documents.setApplication(this); // link both sides
+        }
+    }
 }
