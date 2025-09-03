@@ -1,6 +1,8 @@
 package creditcard.model;
 
 
+package com.scb.creditcardapplication.model;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -24,7 +26,7 @@ public class Document {
     @JoinColumn(name = "application_id", referencedColumnName = "id")
     private Application application;
 
-    // Getters and Setters
+    // getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -40,4 +42,3 @@ public class Document {
     public Application getApplication() { return application; }
     public void setApplication(Application application) { this.application = application; }
 }
-
