@@ -19,4 +19,17 @@ public class sql {
     REFERENCES applications(id) ON DELETE CASCADE
 );
 
+{
+  "fullName": "Alice",
+  "phoneNumber": "9876543210",
+  "creditCardType": "Gold",
+  "profileType": "New",
+  "documents": {
+    "idProofPath": "/uploads/id/alice_id.pdf",
+    "addressProofPath": "/uploads/address/alice_address.pdf",
+    "incomeProofPath": "/uploads/income/alice_income.pdf"
+  }
+}
+
+
 }
