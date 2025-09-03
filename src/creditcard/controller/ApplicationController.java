@@ -21,48 +21,40 @@ public class ApplicationController {
 
     private static final String UPLOAD_DIR = "uploads/";
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Application createApplication(
-            @RequestPart("application") Application application,
-            @RequestPart("idProof") MultipartFile idProof,
-            @RequestPart("addressProof") MultipartFile addressProof,
-            @RequestPart("incomeProof") MultipartFile incomeProof) throws IOException {
+  @PostMapping(value = "/applications", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+public Application createApplication(
+        @RequestPart("application") String applicationJson,
+        @RequestPart("idProof") MultipartFile idProof,
+        @RequestPart("addressProof") MultipartFile addressProof,
+        @RequestPart("incomeProof") MultipartFile incomeProof) throws IOException {
 
-        // Create upload folder if not exists
-        File uploadFolder = new File(UPLOAD_DIR);
-        if (!uploadFolder.exists()) {
-            uploadFolder.mkdirs();
-        }
+    // Convert JSON string into Application object
+    ObjectMapper mapper = new ObjectMapper();
+    Application application = mapper.readValue(applicationJson, Application.class);
 
-        // Save files
-        String idProofPath = UPLOAD_DIR + idProof.getOriginalFilename();
-        idProof.transferTo(new File(idProofPath));
+    // Save files to disk
+    String uploadDir = "uploads/";
+    File folder = new File(uploadDir);
+    if (!folder.exists()) folder.mkdirs();
 
-        String addressProofPath = UPLOAD_DIR + addressProof.getOriginalFilename();
-        addressProof.transferTo(new File(addressProofPath));
+    String idProofPath = uploadDir + idProof.getOriginalFilename();
+    idProof.transferTo(new File(idProofPath));
 
-        String incomeProofPath = UPLOAD_DIR + incomeProof.getOriginalFilename();
-        incomeProof.transferTo(new File(incomeProofPath));
+    String addressProofPath = uploadDir + addressProof.getOriginalFilename();
+    addressProof.transferTo(new File(addressProofPath));
 
-        // Link documents
-        Document documents = new Document();
-        documents.setIdProofPath(idProofPath);
-        documents.setAddressProofPath(addressProofPath);
-        documents.setIncomeProofPath(incomeProofPath);
-        documents.setApplication(application);
+    String incomeProofPath = uploadDir + incomeProof.getOriginalFilename();
+    incomeProof.transferTo(new File(incomeProofPath));
 
-        application.setDocuments(documents);
+    // Link documents
+    Document documents = new Document();
+    documents.setIdProofPath(idProofPath);
+    documents.setAddressProofPath(addressProofPath);
+    documents.setIncomeProofPath(incomeProofPath);
+    documents.setApplication(application);
 
-        return applicationRepository.save(application);
-    }
+    application.setDocuments(documents);
 
-    @GetMapping("/{id}")
-    public Application getApplicationById(@PathVariable Long id) {
-        return applicationRepository.findById(id).orElse(null);
-    }
-
-    @GetMapping
-    public Iterable<Application> getAllApplications() {
-        return applicationRepository.findAll();
-    }
+    return applicationRepository.save(application);
+}
 }
