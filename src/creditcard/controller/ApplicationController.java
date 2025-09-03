@@ -1,6 +1,3 @@
-package creditcard.controller;
-
-
 package com.scb.creditcardapplication.controller;
 
 import com.scb.creditcardapplication.model.Application;
@@ -18,19 +15,19 @@ public class ApplicationController {
     @Autowired
     private ApplicationRepository applicationRepository;
 
-    // POST: Save application + documents
+    // POST
     @PostMapping
     public Application createApplication(@RequestBody Application application) {
         return applicationRepository.save(application);
     }
 
-    // GET: fetch all applications
+    // GET all
     @GetMapping
     public List<Application> getAllApplications() {
         return applicationRepository.findAll();
     }
 
-    // GET: fetch application by id
+    // GET by id
     @GetMapping("/{id}")
     public Application getApplicationById(@PathVariable Long id) {
         return applicationRepository.findById(id).orElseThrow();
