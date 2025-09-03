@@ -1,5 +1,7 @@
 package creditcard.model;
 
+package com.scb.creditcardapplication.model;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -22,7 +24,10 @@ public class Application {
     @Column(name = "profile_type")
     private String profileType;
 
-    // Getters and Setters
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL)
+    private Document documents;
+
+    // getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -34,6 +39,18 @@ public class Application {
 
     public String getCreditCardType() { return creditCardType; }
     public void setCreditCardType(String creditCardType) { this.creditCardType = creditCardType; }
+
+    public String getProfileType() { return profileType; }
+    public void setProfileType(String profileType) { this.profileType = profileType; }
+
+    public Document getDocuments() { return documents; }
+    public void setDocuments(Document documents) {
+        this.documents = documents;
+        if (documents != null) {
+            documents.setApplication(this);
+        }
+    }
+}
 
     public String getProfileType() { return profileType; }
     public void setProfileType(String profileType) { this.profileType = profileType; }
