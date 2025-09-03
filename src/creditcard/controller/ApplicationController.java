@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")   // allow frontend later
+@CrossOrigin(origins = "http://localhost:3000")
 public class ApplicationController {
 
     private final ApplicationRepository applicationRepository;
@@ -22,7 +22,7 @@ public class ApplicationController {
         this.applicationRepository = applicationRepository;
     }
 
-    // ✅ POST: create new application with documents
+    // ✅ POST
     @PostMapping(value = "/applications", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Application createApplication(
             @RequestPart("application") String applicationJson,
@@ -31,15 +31,16 @@ public class ApplicationController {
             @RequestPart("incomeProof") MultipartFile incomeProof
     ) throws IOException {
 
-        // 1. Convert application JSON string → Application object
+        // Convert JSON string into Application object
         ObjectMapper mapper = new ObjectMapper();
         Application application = mapper.readValue(applicationJson, Application.class);
 
-        // 2. Save uploaded files to "uploads/" folder
+        // Create uploads directory
         String uploadDir = "uploads/";
         File folder = new File(uploadDir);
         if (!folder.exists()) folder.mkdirs();
 
+        // Save files
         String idProofPath = uploadDir + idProof.getOriginalFilename();
         idProof.transferTo(new File(idProofPath));
 
@@ -49,7 +50,7 @@ public class ApplicationController {
         String incomeProofPath = uploadDir + incomeProof.getOriginalFilename();
         incomeProof.transferTo(new File(incomeProofPath));
 
-        // 3. Link documents to application
+        // Link documents
         Document documents = new Document();
         documents.setIdProofPath(idProofPath);
         documents.setAddressProofPath(addressProofPath);
@@ -58,11 +59,10 @@ public class ApplicationController {
 
         application.setDocuments(documents);
 
-        // 4. Save in DB
         return applicationRepository.save(application);
     }
 
-    // ✅ GET: fetch application by ID
+    // ✅ GET
     @GetMapping("/applications/{id}")
     public Application getApplication(@PathVariable Long id) {
         return applicationRepository.findById(id)
