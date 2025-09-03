@@ -1,10 +1,6 @@
-package creditcard.repository;
+package com.scb.creditcardapplication.repository;
 
-
-import com.example.creditcard.model.Document;
+import com.scb.creditcardapplication.model.Document;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DocumentRepository extends JpaRepository<Document, Long> {
-    Document findByApplicationId(Long applicationId);
-}
-
+public interface DocumentRepository extends JpaRepository<Document, Long> {}
