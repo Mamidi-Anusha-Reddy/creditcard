@@ -1,4 +1,4 @@
-package com.scb.creditcardapplication.model;
+package com.scb.creditcardorigination.model;
 
 import jakarta.persistence.*;
 
@@ -18,19 +18,5 @@ public class Document {
     @JoinColumn(name = "application_id", referencedColumnName = "id")
     private Application application;
 
-    // getters & setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getIdProofPath() { return idProofPath; }
-    public void setIdProofPath(String idProofPath) { this.idProofPath = idProofPath; }
-
-    public String getAddressProofPath() { return addressProofPath; }
-    public void setAddressProofPath(String addressProofPath) { this.addressProofPath = addressProofPath; }
-
-    public String getIncomeProofPath() { return incomeProofPath; }
-    public void setIncomeProofPath(String incomeProofPath) { this.incomeProofPath = incomeProofPath; }
-
-    public Application getApplication() { return application; }
-    public void setApplication(Application application) { this.application = application; }
+    // getters and setters
 }
