@@ -1,6 +1,3 @@
-package creditcard.model;
-
-
 package com.scb.creditcardapplication.model;
 
 import jakarta.persistence.*;
@@ -13,18 +10,9 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "id_proof_path")
     private String idProofPath;
-
-    @Column(name = "address_proof_path")
     private String addressProofPath;
-
-    @Column(name = "income_proof_path")
     private String incomeProofPath;
-
-    @OneToOne
-    @JoinColumn(name = "application_id", referencedColumnName = "id")
-    private Application application;
 
     // getters and setters
     public Long getId() { return id; }
@@ -38,7 +26,4 @@ public class Document {
 
     public String getIncomeProofPath() { return incomeProofPath; }
     public void setIncomeProofPath(String incomeProofPath) { this.incomeProofPath = incomeProofPath; }
-
-    public Application getApplication() { return application; }
-    public void setApplication(Application application) { this.application = application; }
 }
