@@ -14,7 +14,11 @@ public class Document {
     private String addressProofPath;
     private String incomeProofPath;
 
-    // getters and setters
+    @OneToOne
+    @JoinColumn(name = "application_id", referencedColumnName = "id")
+    private Application application;
+
+    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -26,4 +30,7 @@ public class Document {
 
     public String getIncomeProofPath() { return incomeProofPath; }
     public void setIncomeProofPath(String incomeProofPath) { this.incomeProofPath = incomeProofPath; }
+
+    public Application getApplication() { return application; }
+    public void setApplication(Application application) { this.application = application; }
 }
