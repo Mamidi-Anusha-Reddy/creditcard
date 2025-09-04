@@ -1,5 +1,6 @@
 package com.scb.creditcardorigination.applicationFormFeature.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scb.creditcardorigination.applicationFormFeature.model.Application;
 import com.scb.creditcardorigination.applicationFormFeature.service.ApplicationService;
 import org.springframework.http.ResponseEntity;
@@ -15,26 +16,22 @@ import java.util.List;
 public class ApplicationController {
 
     private final ApplicationService applicationService;
+    private final ObjectMapper objectMapper;
 
-    public ApplicationController(ApplicationService applicationService) {
+    public ApplicationController(ApplicationService applicationService, ObjectMapper objectMapper) {
         this.applicationService = applicationService;
+        this.objectMapper = objectMapper;
     }
 
     @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<Application> createApplication(
-            @RequestPart String fullName,
-            @RequestPart String phoneNumber,
-            @RequestPart String creditCardType,
-            @RequestPart String profileType,
-            @RequestPart MultipartFile idProof,
-            @RequestPart MultipartFile addressProof,
-            @RequestPart MultipartFile incomeProof
+            @RequestPart("application") String applicationJson,
+            @RequestPart("idProof") MultipartFile idProof,
+            @RequestPart("addressProof") MultipartFile addressProof,
+            @RequestPart("incomeProof") MultipartFile incomeProof
     ) throws IOException {
-        Application app = new Application();
-        app.setFullName(fullName);
-        app.setPhoneNumber(phoneNumber);
-        app.setCreditCardType(creditCardType);
-        app.setProfileType(profileType);
+        // Convert JSON string into Application object
+        Application app = objectMapper.readValue(applicationJson, Application.class);
 
         Application saved = applicationService.saveApplication(app, idProof, addressProof, incomeProof);
         return ResponseEntity.ok(saved);
