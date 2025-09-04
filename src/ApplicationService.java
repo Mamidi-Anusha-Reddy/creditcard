@@ -28,7 +28,9 @@ public class ApplicationService {
                                        MultipartFile incomeProof) throws IOException {
 
         Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
-        if (!Files.exists(uploadPath)) Files.createDirectories(uploadPath);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
 
         Document doc = new Document();
         doc.setIdProofPath(storeFile(uploadPath, idProof));
@@ -36,6 +38,7 @@ public class ApplicationService {
         doc.setIncomeProofPath(storeFile(uploadPath, incomeProof));
 
         application.setDocuments(doc);
+
         return applicationRepository.save(application);
     }
 
@@ -43,7 +46,7 @@ public class ApplicationService {
         String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
         Path target = uploadPath.resolve(filename);
         Files.copy(file.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
-        return target.toString();
+        return target.toString(); // stored path in DB
     }
 
     public java.util.List<Application> getAll() {
