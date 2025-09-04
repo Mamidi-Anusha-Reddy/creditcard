@@ -47,4 +47,19 @@ public class ApplicationController {
         Application app = applicationService.getById(id);
         return app != null ? ResponseEntity.ok(app) : ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/documents/{fileName}")
+public ResponseEntity<Resource> getDocument(@PathVariable String fileName) throws IOException {
+    Path filePath = Paths.get("uploads").resolve(fileName).normalize();
+    Resource resource = new UrlResource(filePath.toUri());
+
+    if (!resource.exists()) {
+        return ResponseEntity.notFound().build();
+    }
+
+    return ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .body(resource);
+}
+
 }
