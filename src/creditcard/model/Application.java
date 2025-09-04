@@ -1,7 +1,6 @@
 package com.scb.creditcardorigination.applicationFormFeature.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "applications")
@@ -11,16 +10,9 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String fullName;
-
-    @NotBlank
     private String phoneNumber;
-
-    @NotBlank
     private String creditCardType; // Gold, Silver, Platinum
-
-    @NotBlank
     private String profileType;    // New, Existing
 
     @OneToOne(mappedBy = "application", cascade = CascadeType.ALL)
