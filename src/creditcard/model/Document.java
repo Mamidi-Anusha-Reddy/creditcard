@@ -1,6 +1,7 @@
-package com.example.creditcard.model;
+package com.scb.creditcardorigination.applicationFormFeature.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "documents")
@@ -10,15 +11,20 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String idProofPath;
+
+    @NotBlank
     private String addressProofPath;
+
+    @NotBlank
     private String incomeProofPath;
 
     @OneToOne
     @JoinColumn(name = "application_id", unique = true)
     private Application application;
 
-    // Getters & Setters
+    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
