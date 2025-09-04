@@ -1,6 +1,7 @@
-package com.example.creditcard.model;
+package com.scb.creditcardorigination.applicationFormFeature.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "applications")
@@ -10,16 +11,22 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String fullName;
-    private String phoneNumber;
-    private String creditCardType;
-    private String profileType;
 
-    // One-to-one with Documents
+    @NotBlank
+    private String phoneNumber;
+
+    @NotBlank
+    private String creditCardType; // Gold, Silver, Platinum
+
+    @NotBlank
+    private String profileType;    // New, Existing
+
     @OneToOne(mappedBy = "application", cascade = CascadeType.ALL)
     private Document documents;
 
-    // Getters & Setters
+    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -36,5 +43,8 @@ public class Application {
     public void setProfileType(String profileType) { this.profileType = profileType; }
 
     public Document getDocuments() { return documents; }
-    public void setDocuments(Document documents) { this.documents = documents; }
+    public void setDocuments(Document documents) {
+        this.documents = documents;
+        if (documents != null) documents.setApplication(this);
+    }
 }
