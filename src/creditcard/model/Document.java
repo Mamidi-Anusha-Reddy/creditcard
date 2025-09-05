@@ -15,10 +15,20 @@ public class Document {
     private String incomeProofPath;
 
     @OneToOne
-    @JoinColumn(name = "application_id", unique = true)
+    @JoinColumn(name = "application_id")
     private Application application;
 
-    // getters & setters
+    // Default constructor
+    public Document() {}
+
+    // Constructor
+    public Document(String idProofPath, String addressProofPath, String incomeProofPath) {
+        this.idProofPath = idProofPath;
+        this.addressProofPath = addressProofPath;
+        this.incomeProofPath = incomeProofPath;
+    }
+
+    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -33,4 +43,14 @@ public class Document {
 
     public Application getApplication() { return application; }
     public void setApplication(Application application) { this.application = application; }
+
+    @Override
+    public String toString() {
+        return "Document{" +
+                "id=" + id +
+                ", idProofPath='" + idProofPath + '\'' +
+                ", addressProofPath='" + addressProofPath + '\'' +
+                ", incomeProofPath='" + incomeProofPath + '\'' +
+                '}';
+    }
 }
